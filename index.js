@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mysql = require('mysql');
 
 const app = express();
@@ -18,6 +19,7 @@ mysqlConnection.connect((err) => {
 });
 
 // Parse JSON in request body
+app.use(cors());
 app.use(express.json());
 
 // API endpoints
@@ -48,7 +50,7 @@ app.post('/api/todos', (req, res) => {
   console.log('task', `${task}`, 'time', `${time}`);
   mysqlConnection.query(query, (err, results) => {
     if (err) throw err;
-    res.send('Task created');
+    res.send(JSON.parse('Task created'));
   });
 });
 
@@ -59,7 +61,7 @@ app.put('/api/todos/:id', (req, res) => {
   const query = `UPDATE tasks SET task = '${task}', time = '${time}' WHERE id = ${id}`;
   mysqlConnection.query(query, (err, results) => {
     if (err) throw err;
-    res.send('Task updated');
+    res.send(JSON.parse('Task updated'));
   });
 });
 
@@ -69,12 +71,12 @@ app.delete('/api/todos/:id', (req, res) => {
   const query = `DELETE FROM tasks WHERE id = ${id}`;
   mysqlConnection.query(query, (err, results) => {
     if (err) throw err;
-    res.send('Task deleted');
+    res.send(JSON.parse('Task deleted'));
   });
 });
 
 // Start server
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 9090;
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
