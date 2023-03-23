@@ -50,7 +50,7 @@ app.post('/api/todos', (req, res) => {
   console.log('task', `${task}`, 'time', `${time}`);
   mysqlConnection.query(query, (err, results) => {
     if (err) throw err;
-    res.send(JSON.parse('Task created'));
+    res.send({message:`Tasks created`});
   });
 });
 
@@ -61,7 +61,7 @@ app.put('/api/todos/:id', (req, res) => {
   const query = `UPDATE tasks SET task = '${task}', time = '${time}' WHERE id = ${id}`;
   mysqlConnection.query(query, (err, results) => {
     if (err) throw err;
-    res.send(JSON.parse('Task updated'));
+    res.send({message:`Task updated.`});
   });
 });
 
@@ -71,12 +71,12 @@ app.delete('/api/todos/:id', (req, res) => {
   const query = `DELETE FROM tasks WHERE id = ${id}`;
   mysqlConnection.query(query, (err, results) => {
     if (err) throw err;
-    res.send(JSON.parse('Task deleted'));
+    res.send({message:`Task deleted.`});
   });
 });
 
 // Start server
-const PORT = process.env.PORT || 9090;
+const PORT = 9090;
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
